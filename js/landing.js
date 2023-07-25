@@ -65,5 +65,13 @@ window.addEventListener('load', (event) => {
     window.addEventListener('scroll', (event) => {
         // 스크롤이 끝났는지 아닌지 체크하기
         scroller.isScrollended()
+        
+        // 스크롤링 중에 어느정도 스크롤 바를 내리면 헤더에 그림자 적용
+        scroller.getScrollPosition() > header.offsetHeight ?
+        header.classList.add('active')
+        : header.classList.remove('active')
+
     })
+    
+    
 })
