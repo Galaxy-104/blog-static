@@ -33,4 +33,37 @@ window.addEventListener('load', (event) => {
         scroller.setScrollPosition({top: 0, behavior: 'smooth'})
     })
 
+    // 내비게이션 메뉴 클릭시 해당 섹션으로 곧바로 스크롤하기
+    const sections = document.querySelectorAll('section:not(.footer)')
+    const nav = document.querySelector('.navbar ul')
+    
+    // 내비게이션 메뉴 클릭한 경우
+    nav.querySelectorAll('li a').forEach(anchor => {
+        anchor.addEventListener('click', function(event){
+            const section = this.getAttribute('href')
+            console.log(document.querySelector(section))
+            const offsetToElementFromViewport =
+            document.querySelector(section).getBoundingClientRect().top
+
+            if(!scroller.getScrollState()){
+                event.preventDefault()
+                history.pushState({}, "", `${section}`)
+
+                const offsetToElementFromDocument = offsetToElementFromViewport +
+                scroller.getScrollPosition() // 문서 상단에서 섹션까지의 거리
+                scroller.setScrollPosition({
+                    top: offsetToElementFromDocument - header.offsetHeight - 10, behavior: 'smooth'
+                })
+            }
+        })
+    })
+
+    let lastScrollLocation = 0 // 최근 스크롤 위치
+    let sectionToMove, menulink
+
+    // 스크롤링 중에 발생하는 이벤트
+    window.addEventListener('scroll', (event) => {
+        // 스크롤이 끝났는지 아닌지 체크하기
+        scroller.isScrollended()
+    })
 })
