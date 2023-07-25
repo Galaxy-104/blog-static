@@ -93,7 +93,28 @@ window.addEventListener('load', (event) => {
                 paragraph.classList.remove('show')
             }
         })
+
+        if(!scroller.getScrollState()){ // 조건문 설정하지 않으면 무한루프
+            // 현재 화면에 보여지는 섹션에 대한 메뉴의 링크 (a태그)
+            menulink = nav.querySelector('a.active').closest('li')
+
+            // 1. 스크롤을 내렸는지 올렸는지 판단하기
+            if(scroller.getScrollPosition() > lastScrollLocation){
+                // 스크롤을 내린 경우
+                lastScrollLocation = scroller.getScrollPosition()
+                sectionToMove = menulink.nextElementSibling?.querySelector('a')
+
+            }else{
+                // 스크롤을 올린 경우
+                lastScrollLocation = scroller.getScrollPosition()
+                sectionToMove = menulink.previousElementSibling?.querySelector('a')
+            }
+
+            // 스크롤링 할 때 이전/다음 메뉴를 자바스크립트로 클릭해주기
+            if(sectionToMove?.getAttribute('href') !== undefined){
+                sectionToMove.click()
+            }
+        }
     })
-    
     
 })
