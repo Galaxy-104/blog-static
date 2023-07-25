@@ -75,13 +75,16 @@ window.addEventListener('load', (event) => {
         sections.forEach(section => {
             const title = section.querySelector('.content h3')
             const paragraph = section.querySelector('.content p')
-            
-            console.log(section.id, section.getBoundingClientRect().top)
 
             if(section.getBoundingClientRect().top < header.offsetHeight + 50){
                 // 해당 섹션이 헤더에 가까워지면 텍스트 애니메이션 적용하기
                 title.classList.add('show')
                 paragraph.classList.add('show')
+
+                // 해당 섹션이 헤더에 가까워지면 해당 메뉴에 하이라이트 적용
+                nav.querySelector('a.active').classList.remove('active')
+                nav.querySelector(`a[href="#${section.id}"]`).classList.add('active')
+
             }
 
             // 스크롤바가 브라우저 상단에 도달하면 텍스트 애니메이션 해제
