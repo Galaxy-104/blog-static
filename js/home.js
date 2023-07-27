@@ -53,6 +53,15 @@ window.addEventListener('load', (event) => {
             }
 
         })
+
+        // 스크롤바를 헤더 높이만큼 내린 경우 헤더 하단 그림자 & 푸터 숨기기
+        if(scroller.getScrollPosition() > header.offsetHeight){
+            header.classList.add('active')
+            footer.classList.add('hide')
+        }else{
+            header.classList.remove('active')
+            footer.classList.remove('hide')
+        }
     })
 
 })
