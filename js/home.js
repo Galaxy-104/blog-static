@@ -33,4 +33,26 @@ window.addEventListener('load', (event) => {
         scroller.setScrollPosition({top: 0, behavior: 'smooth'})
     })
 
+    const sections = document.querySelectorAll('.blog-container > div:not(.follow)')
+    const footer = document.querySelector('.footer')
+
+    window.addEventListener('scroll', (event) => {
+        // 해당 섹션에 헤더에 가까워지면 애니메이션 적용하기
+        sections.forEach(section => {
+            console.log(section.className, section.getBoundingClientRect().top, header.offsetHeight)
+
+            if(section.getBoundingClientRect().top < header.offsetHeight + 200){
+                const blogs = section.querySelectorAll('.blog')
+                blogs.forEach(blog => blog.classList.add('show'))
+            }
+
+            // 스크롤바가 브라우저 상단에 도달하면 애니메이션 해제하기
+            if(scroller.getScrollPosition() < 10){
+                const blogs = section.querySelectorAll('.blog')
+                blogs.forEach(blog => blog.classList.remove('show'))
+            }
+
+        })
+    })
+
 })

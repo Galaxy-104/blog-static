@@ -73,6 +73,7 @@ header .navbar ul li .account img{
     margin-bottom: 2.5rem;
     border-bottom: none;
     box-shadow: 0 0 .2rem rgba(0, 0, 0, .3);
+    transition: .5s;
 }
 .blog-container .blog > div > ul{
     display: flex;
