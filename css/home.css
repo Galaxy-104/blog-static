@@ -14,3 +14,15 @@ header .navbar ul li .account img{
     height: 2rem;
     border-radius: 50%;
 }
+
+/* 푸터 */
+.footer{
+    position: fixed;
+    z-index: 1;
+    bottom: 0;
+    transition: 1s ease-in-out;
+}
+.footer.hide{
+    opacity: 0;
+    height: 0;
+}
