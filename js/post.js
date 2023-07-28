@@ -35,11 +35,13 @@ window.addEventListener('load', (event) => {
         console.log('태그 입력중...', event.key, tagInput.value)
         console.log(this)
 
-        if(event.key === 'Enter' && this.value.length <= tagLength && tagList.children.length < tagslimit){
+        const trimTag = this.value.trim() // 글자 양쪽에 공백을 제거
+
+        if(event.key === 'Enter' && trimTag !== '' && trimTag.length <= tagLength && tagList.children.length < tagslimit){
             const tag = document.createElement('li')
-            tag.innerHTML = `#${this.value}<a href="#">X</a>`
+            tag.innerHTML = `#${trimTag}<a href="#">X</a>`
             tagList.appendChild(tag)
-            this.value = '' // 입력창 초기화
+            trimTag = '' // 입력창 초기화
         }
     })
 })
