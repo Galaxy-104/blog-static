@@ -7,6 +7,7 @@ window.addEventListener('load', (event) => {
     const title = document.querySelector('.post-container .post-title input')
     const postContents = document.querySelector('.post-container .post-contents')
     const tagInput = document.querySelector('.post-container .post-tags input')
+    const postCategory = document.querySelector('.post-container .post-category select')
 
     mode.addEventListener('click', (event) => {
         document.body.classList.toggle('dark')
@@ -15,6 +16,8 @@ window.addEventListener('load', (event) => {
         title.classList.toggle('dark')
         postContents.classList.toggle('dark')
         tagInput.classList.toggle('dark')
+        postCategory.classList.toggle('dark')
+
 
         for(const icon of icons){
             icon.classList.contains('active') ?
