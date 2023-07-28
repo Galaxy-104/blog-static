@@ -41,7 +41,19 @@ window.addEventListener('load', (event) => {
             const tag = document.createElement('li')
             tag.innerHTML = `#${trimTag}<a href="#">X</a>`
             tagList.appendChild(tag)
-            trimTag = '' // 입력창 초기화
+            this.value = '' // 입력창 초기화
         }
     })
+
+    // 태그 삭제 기능(이벤트 위임 사용)
+    tagList.addEventListener('click', function(event){
+        console.log(event.target, event.target.parentElement, event.target.hasAttribute('href'))
+
+        event.preventDefault()
+        if(event.target.hasAttribute('href')){
+            tagList.removeChild(event.target.parentElement)
+        }
+
+    })
+
 })
