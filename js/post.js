@@ -130,10 +130,13 @@ window.addEventListener('load', (event) => {
     })
 
     // 텍스트 포맷
+    const toolBox = document.querySelector('.toolbox')
     const textTool = document.querySelector('.text-tool')
     const colorBoxes = textTool.querySelectorAll('.text-tool .color-box')
     const fontBox = textTool.querySelector('.text-tool .font-box')
+
     textTool.addEventListener('click', function(event){
+        event.preventDefault()
         event.stopPropagation() // document 클릭 이벤트와 충돌하지 않도록 설정
         console.log(event.target)
         switch(event.target.innerText){
@@ -150,15 +153,15 @@ window.addEventListener('load', (event) => {
                 changeTextFormat('strikeThrough')
                 break 
             case 'format_color_text':
-                hideDropdown(textTool, 'format_color_text')
+                hideDropdown(toolBox, 'format_color_text')
                 colorBoxes[0].classList.toggle('show')
                 break 
             case 'format_color_fill':
-                hideDropdown(textTool, 'format_color_fill')
+                hideDropdown(toolBox, 'format_color_fill')
                 colorBoxes[1].classList.toggle('show')
                 break 
             case 'format_size':
-                hideDropdown(textTool, 'format_size')
+                hideDropdown(toolBox, 'format_size')
                 fontBox.classList.toggle('show')
                 break 
 
@@ -175,6 +178,8 @@ window.addEventListener('load', (event) => {
     const alignTool = document.querySelector('.align-tool')
     alignTool.addEventListener('click', function(event){
         console.log(event.target.innerText)
+        event.preventDefault()
+        event.stopPropagation()
         switch(event.target.innerText){
             case 'format_align_left':
                 changeTextFormat('justifyLeft')
@@ -190,6 +195,26 @@ window.addEventListener('load', (event) => {
                 break
         }
     })
+
+    const linkTool = document.querySelector('.link-tool')
+    const emoticonBox = document.querySelector('.link-tool .emoticon-box')
+    linkTool.addEventListener('click', function(event){
+        event.preventDefault()
+        event.stopPropagation()
+        switch(event.target.innerText){
+            case 'sentiment_satisfied':
+                hideDropdown(toolBox, 'sentiment_satisfied')
+                emoticonBox.classList.toggle('show')
+                break 
+            case 'table_view':
+                break 
+            case 'link':
+                break 
+            case 'format_list_bulleted':
+                break 
+        }
+    })
+    emoticonBox.addEventListener('click', addEmoticon)
 
 })
 
@@ -286,6 +311,15 @@ function changeFontSize(event){
     event.stopPropagation()
     if(!event.target.classList.contains('select-menu-dropdown')){
         changeTextFormat('fontSize', event.target.id)
+        event.target.parentElement.classList.remove('show')
+    }
+}
+
+function addEmoticon(event){
+    event.preventDefault()
+    event.stopPropagation()
+    if(!event.target.classList.contains('select-menu-dropdown')){
+        changeTextFormat('insertText', event.target.innerText)
         event.target.parentElement.classList.remove('show')
     }
 }
