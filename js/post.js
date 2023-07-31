@@ -94,7 +94,19 @@ window.addEventListener('load', (event) => {
 
                 }else{
                     console.log('file')
+                    const div = document.createElement('div')
+                    div.className = 'normal-file'
+                    div.contentEditable = false
+                    div.innerHTML = `
+                        <div class="file-icon">
+                            <span class= "meterial-icons">folder</span>
+                        </div>
+                        <div class="file-info">
+                            <h3>${getFileName(file.name, 70)}</h3>
+                            <p>${getFileSize(file.size)}</p>
+                        </div>`
 
+                    lastCaretLine = addFileToCurrentLine(lastCaretLine, div)
                 }
             }
 
@@ -139,4 +151,21 @@ function addFileToCurrentLine(line, file){
     line.nextSibling.insertAdjacentElement('afterbegin', file)
     line.nextSibling.insertAdjacentElement('afterend', createNewLine())
     return line.nextSibling.nextSibling // 파일 하단에 위치한 공백라인
+}
+
+function getFileName(name, limit){
+    return name.length > limit ?
+    `${name.slice(0, limit)}...${name.slice(name.lastIndexOf('.'), name.length)}`
+    : name
+}
+
+// number : 파일 용량(bytes 단위)
+function getFileSize(number){
+    if(number < 1024){
+        return number + 'bytes'
+    }else if(number >= 1024 && number < 1048576){
+        return (number/1024).toFixed(1) + 'KB'
+    }else if(number >= 1048576){
+        return(number/1048576).toFixed(1) + 'MB'
+    }
 }
