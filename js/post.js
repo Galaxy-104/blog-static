@@ -72,24 +72,21 @@ window.addEventListener('load', (event) => {
 
                 if(fileType.includes('image')){
                     console.log('image')
-                    const img = document.createElement('img')
-                    img.src = URL.createObjectURL(file) // 파일 임시경로 생성
-                    // console.log(URL.createObjectURL(file))
+                    const img = buildMediaElement('img', {src: URL.createObjectURL(file)})
                     lastCaretLine = addFileToCurrentLine(lastCaretLine, img)
                 }else if(fileType.includes('video')){
                     console.log('video')
-                    const video = document.createElement('video')
-                    video.className = 'video-file'
-                    video.controls = true
-                    video.src = URL.createObjectURL(file)
+                    const video = buildMediaElement('video', 
+                        { className: 'video-file', controls: true,
+                        src: URL.createObjectURL(file) }
+                    )
                     lastCaretLine = addFileToCurrentLine(lastCaretLine, video)
-
                 }else if(fileType.includes('audio')){
                     console.log('audio')
-                    const audio = document.createElement('audio')
-                    audio.className = 'audio-file'
-                    audio.controls = true
-                    audio.src = URL.createObjectURL(file)
+                    const audio = buildMediaElement('audio', 
+                        { className: 'audio-file', controls: true,
+                        src: URL.createObjectURL(file)}
+                    )
                     lastCaretLine = addFileToCurrentLine(lastCaretLine, audio)
 
                 }else{
@@ -168,4 +165,13 @@ function getFileSize(number){
     }else if(number >= 1048576){
         return(number/1048576).toFixed(1) + 'MB'
     }
+}
+
+// options : { className: 'audio', controls: 'true'}
+function buildMediaElement(tag, options){
+    const mediaElement = document.createElement(tag)
+    for(const option in options){ // 생성한 엘리먼트의 속성 설정
+        mediaElement[option] = options[option]
+    }
+    return mediaElement
 }
