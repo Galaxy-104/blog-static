@@ -78,9 +78,19 @@ window.addEventListener('load', (event) => {
                     lastCaretLine = addFileToCurrentLine(lastCaretLine, img)
                 }else if(fileType.includes('video')){
                     console.log('video')
+                    const video = document.createElement('video')
+                    video.className = 'video-file'
+                    video.controls = true
+                    video.src = URL.createObjectURL(file)
+                    lastCaretLine = addFileToCurrentLine(lastCaretLine, video)
 
                 }else if(fileType.includes('audio')){
                     console.log('audio')
+                    const audio = document.createElement('audio')
+                    audio.className = 'audio-file'
+                    audio.controls = true
+                    audio.src = URL.createObjectURL(file)
+                    lastCaretLine = addFileToCurrentLine(lastCaretLine, audio)
 
                 }else{
                     console.log('file')
