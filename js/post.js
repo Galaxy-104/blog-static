@@ -57,7 +57,10 @@ window.addEventListener('load', (event) => {
     })
 
     // 파일 입력 처리
-    let lastCaretLine = null // Caret: 커서 (커서 위치의 엘리먼트 저장)
+    postContents.focus() // 첫로딩 때 커서 보이게 하기 
+    postContents.insertAdjacentElement('afterbegin', createNewLine()) // 첫줄에 새 공백라인 생성
+
+    let lastCaretLine = postContents.firstChild // Caret: 커서 (커서 위치의 엘리먼트 저장)
     const uploadInput = document.querySelector('.upload input')
     uploadInput.addEventListener('change', function(event){
         const files = this.files
