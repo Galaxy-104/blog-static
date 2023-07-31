@@ -129,6 +129,68 @@ window.addEventListener('load', (event) => {
         console.log(lastCaretLine.parentNode, lastCaretLine, lastCaretLine.length)
     })
 
+    // 텍스트 포맷
+    const textTool = document.querySelector('.text-tool')
+    const colorBoxes = textTool.querySelectorAll('.text-tool .color-box')
+    const fontBox = textTool.querySelector('.text-tool .font-box')
+    textTool.addEventListener('click', function(event){
+        event.stopPropagation() // document 클릭 이벤트와 충돌하지 않도록 설정
+        console.log(event.target)
+        switch(event.target.innerText){
+            case 'format_bold':
+                changeTextFormat('bold')
+                break
+            case 'format_italic':
+                changeTextFormat('italic')
+                break
+            case 'format_underlined':
+                changeTextFormat('underline')
+                break
+            case 'format_strikethrough':
+                changeTextFormat('strikeThrough')
+                break 
+            case 'format_color_text':
+                hideDropdown(textTool, 'format_color_text')
+                colorBoxes[0].classList.toggle('show')
+                break 
+            case 'format_color_fill':
+                hideDropdown(textTool, 'format_color_fill')
+                colorBoxes[1].classList.toggle('show')
+                break 
+            case 'format_size':
+                hideDropdown(textTool, 'format_size')
+                fontBox.classList.toggle('show')
+                break 
+
+        }
+        // 커서 설정
+        postContents.focus({preventScroll: true})
+    })
+
+    colorBoxes[0].addEventListener('click', (event) => changeColor(event, 'foreground'))
+    colorBoxes[1].addEventListener('click', (event) => changeColor(event, 'background'))
+    fontBox.addEventListener('click', changeFontSize)
+    
+    // 텍스트 정렬
+    const alignTool = document.querySelector('.align-tool')
+    alignTool.addEventListener('click', function(event){
+        console.log(event.target.innerText)
+        switch(event.target.innerText){
+            case 'format_align_left':
+                changeTextFormat('justifyLeft')
+                break
+            case 'format_align_center':
+                changeTextFormat('justifyCenter')
+                break 
+            case 'format_align_right':
+                changeTextFormat('justifyRight')
+                break
+            case 'format_align_justify':
+                changeTextFormat('justifyFull')
+                break
+        }
+    })
+
 })
 
 // 공백 엘리먼트 생성
@@ -174,4 +236,56 @@ function buildMediaElement(tag, options){
         mediaElement[option] = options[option]
     }
     return mediaElement
+}
+
+function changeTextFormat(style, param){
+    console.log(style)
+    document.execCommand(style, false, param)
+}
+
+function hideDropdown(toolbox, currentDropdown){
+    // 현재 text-tool 안에서 열려있는 드롭다운 메뉴를 조회
+    const dropdown = toolbox.querySelector('.select-menu-dropdown.show')
+    if(dropdown){
+        console.log(currentDropdown) // 현재 클릭한 아이콘
+        console.log(dropdown.parentElement)
+    }
+    if(dropdown && dropdown.parentElement.querySelector('a span').innerText !== currentDropdown){
+        dropdown.classList.remove('show')
+    }
+    
+}
+
+document.addEventListener('click', function(e){
+    // 현재 열려있는 드롭다운 메뉴 조회
+    const dropdown = document.querySelector('.select-menu-dropdown.show')
+    if(dropdown && !dropdown.contains(e.target)){
+        dropdown.classList.remove('show')
+    } 
+
+})
+
+function changeColor(event, mode){
+    event.stopPropagation() // 클릭이벤트 버블링 방지
+    if(!event.target.classList.contains('select-menu-dropdown')){
+        console.log(mode, event.target)
+        switch(mode){
+            case 'foreground':
+                changeTextFormat('foreColor', event.target.style.backgroundColor) // 글자색 변경
+                break
+            case 'background':
+                changeTextFormat('backColor', event.target.style.backgroundColor) // 배경색 변경
+                break
+        }
+        // 색상 선택시 드롭다운 메뉴 숨기기
+        event.target.parentElement.classList.remove('show')
+    }
+}
+
+function changeFontSize(event){
+    event.stopPropagation()
+    if(!event.target.classList.contains('select-menu-dropdown')){
+        changeTextFormat('fontSize', event.target.id)
+        event.target.parentElement.classList.remove('show')
+    }
 }
